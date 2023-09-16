@@ -1,3 +1,4 @@
+import { OpenAIStream, streamToResponse } from 'ai';
 import { FastifyInstance } from "fastify";
 import { z } from 'zod';
 import { openai } from "../lib/openai";
@@ -7,12 +8,12 @@ export const generateAiCompletion = async (app:FastifyInstance) => {
     app.post('/ai/complete', async (req, res) => {
 
         const bodySchema = z.object({
-            template: z.string(),
+            prompt: z.string(),
             videoId: z.string().cuid(),
             temperature: z.number().min(0).max(1).default(0.5),
         })
 
-        const {temperature, template, videoId} = bodySchema.parse(req.body)
+        const {temperature, prompt: template, videoId} = bodySchema.parse(req.body)
 
         const video = await prisma.video.findFirstOrThrow({
             where: {
@@ -34,8 +35,16 @@ export const generateAiCompletion = async (app:FastifyInstance) => {
                  role: 'user',
                  content: promptMessage
             }],
+            stream: true
         })
 
-        return response
+        const stream = OpenAIStream(response)
+
+        streamToResponse(stream, res.raw, {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            }
+        })
     })
 }
