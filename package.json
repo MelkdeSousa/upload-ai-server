@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/main.ts"
+    "postinstall": "prisma generate",
+    "dev": "tsx watch src/main.ts",
+    "start": "tsx src/main.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
