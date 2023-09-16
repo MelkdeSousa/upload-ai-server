@@ -13,8 +13,7 @@ WORKDIR /app
 
 COPY --from=builder /app/node_modules ./node_modules
 
-ENV NODE_ENV=production
-ENV PORT=3333
+ENV NODE_ENV production
 
 EXPOSE 3333
 
@@ -22,4 +21,4 @@ RUN npm i -g pnpm
 
 COPY . .
 
-CMD ["pnpm", "start"]
+ENTRYPOINT ["pnpm", "start"]

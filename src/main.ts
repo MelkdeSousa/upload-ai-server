@@ -1,5 +1,6 @@
 import { fastifyCors } from '@fastify/cors'
 import { fastify } from 'fastify'
+import { envs } from './config/envs'
 import { createTranscription } from './routes/create-transcription'
 import { generateAiCompletion } from './routes/generate-ai-completion'
 import { getAllPrompts } from './routes/get-all-prompts'
@@ -16,5 +17,5 @@ app.register(createTranscription)
 app.register(generateAiCompletion)
 
 app.listen({
-    port: 3333
+    port: envs.PORT
 }, (_, address) => console.log(`Server is running on ${address}`))
