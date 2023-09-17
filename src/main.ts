@@ -6,7 +6,9 @@ import { generateAiCompletion } from './routes/generate-ai-completion'
 import { getAllPrompts } from './routes/get-all-prompts'
 import { uploadVideo } from './routes/upload-video'
 
-const app = fastify()
+const app = fastify({
+    logger: true,
+})
 
 app.register(fastifyCors, {
     origin: '*'
@@ -17,5 +19,6 @@ app.register(createTranscription)
 app.register(generateAiCompletion)
 
 app.listen({
+    host: envs.HOST,
     port: envs.PORT
 }, (_, address) => console.log(`Server is running on ${address}`))

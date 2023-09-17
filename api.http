@@ -1,10 +1,10 @@
 # @name get-prompts
-GET http://localhost:3333/prompts
+GET http://localhost:8080/prompts
 
 ###
 
 # @name post-videos
-POST http://127.0.0.1:3333/videos
+POST http://127.0.0.1:8080/videos
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
@@ -17,7 +17,7 @@ Content-Type: audio/mpeg
 ###
 
 # @name create-transcription
-POST http://127.0.0.1:3333/videos/clmk0pqnr0000i0usmrt393lu/transcription
+POST http://127.0.0.1:8080/videos/clmk0pqnr0000i0usmrt393lu/transcription
 Content-Type: application/json
 
 {
