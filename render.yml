@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: upload_ai_server
-    env: docker
-    repo: https://github.com/MelkdeSousa/upload-ai-server
-    plan: starter
-    autoDeploy: true

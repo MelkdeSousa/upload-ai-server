@@ -9,16 +9,17 @@ RUN pnpm i
 
 FROM node:18-alpine as runner
 
+
 WORKDIR /app
 
 COPY --from=builder /app/node_modules ./node_modules
+COPY . .
 
 ENV NODE_ENV production
 
-EXPOSE 3333
-
 RUN npm i -g pnpm
 
-COPY . .
+
+EXPOSE ${PORT}
 
 ENTRYPOINT ["pnpm", "start"]
