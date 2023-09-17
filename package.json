@@ -2,14 +2,13 @@
   "name": "upload-ai-server",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/src/main.js",
   "engines": {
     "node": ">=18"
   },
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "tsx watch src/main.ts",
-    "start": "node ."
+    "start": "node ./dist/src/main.js"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
