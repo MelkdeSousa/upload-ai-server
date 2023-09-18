@@ -17,9 +17,9 @@ Content-Type: audio/mpeg
 ###
 
 # @name create-transcription
-POST http://127.0.0.1:8080/videos/clmk0pqnr0000i0usmrt393lu/transcription
+POST http://127.0.0.1:8080/videos/clmp53qd10000i04dzsly0haa/transcription
 Content-Type: application/json
 
 {
-    "prompt": ""
+    "prompt": "reflexao"
 }

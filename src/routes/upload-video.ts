@@ -31,15 +31,15 @@ export const uploadVideo = async (app: FastifyInstance) => {
         const fileBaseName = path.basename(data.filename, extension)
         const fileUploadName = `${fileBaseName}-${Date.now()}${extension}`
 
-        // https://stackoverflow.com/questions/75186246/uploading-a-file-on-supabase-error-requestinit-duplex-option-is-required-when
-        const { error } = await uploadAIBucket.upload(fileUploadName, data.file, { duplex: 'half', contentType: 'audio/mpeg' })
+        // TODO: segregate by env
+        const { error, data: uploadedFile } = await uploadAIBucket.upload(fileUploadName, data.file, { duplex: 'half', contentType: 'audio/mpeg' })
 
         if (error) return res.status(400).send({ error })
 
         const video = await prisma.video.create({
             data: {
                 name: data.filename,
-                url: fileUploadName
+                url: uploadedFile.path
             }
         })
 
