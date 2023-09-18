@@ -1,12 +1,8 @@
 import { fastifyMultipart } from '@fastify/multipart';
 import { FastifyInstance } from "fastify";
-import fs from 'node:fs';
 import path from 'node:path';
-import { pipeline } from 'node:stream';
-import { promisify } from 'node:util';
 import { prisma } from '../lib/prisma';
-
-const pipe = promisify(pipeline)
+import { uploadAIBucket } from '../lib/supabase';
 
 export const uploadVideo = async (app: FastifyInstance) => {
 
@@ -23,7 +19,7 @@ export const uploadVideo = async (app: FastifyInstance) => {
             return res.status(400).send({
                 error: 'No file uploaded'
             })
-        
+
         const extension = path.extname(data.filename)
 
         if (extension !== '.mp3')
@@ -31,20 +27,22 @@ export const uploadVideo = async (app: FastifyInstance) => {
                 error: 'Only mp3 files are allowed'
             })
 
-        
+
         const fileBaseName = path.basename(data.filename, extension)
         const fileUploadName = `${fileBaseName}-${Date.now()}${extension}`
-        const uploadDestination = path.resolve(path.join(__dirname, '..', '..','uploads', fileUploadName))
 
-        await pipe(data.file, fs.createWriteStream(uploadDestination))
+        // https://stackoverflow.com/questions/75186246/uploading-a-file-on-supabase-error-requestinit-duplex-option-is-required-when
+        const { error } = await uploadAIBucket.upload(fileUploadName, data.file, { duplex: 'half', contentType: 'audio/mpeg' })
+
+        if (error) return res.status(400).send({ error })
 
         const video = await prisma.video.create({
             data: {
                 name: data.filename,
-                url: uploadDestination
+                url: fileUploadName
             }
         })
 
-        return res.status(201).send({video})
+        return res.status(201).send({ video })
     })
 }
