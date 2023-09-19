@@ -9,8 +9,7 @@
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "tsx watch src/main.ts",
-    "prestart": "prisma migrate deploy",
-    "start": "node .",
+    "start": "prisma migrate deploy && node .",
     "poststart": "prisma db seed",
     "build": "tsc --build"
   },
