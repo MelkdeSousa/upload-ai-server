@@ -10,7 +10,6 @@
     "postinstall": "prisma generate",
     "dev": "tsx watch src/main.ts",
     "start": "prisma migrate deploy && node .",
-    "poststart": "prisma db seed",
     "build": "tsc --build"
   },
   "prisma": {
