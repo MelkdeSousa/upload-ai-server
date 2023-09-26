@@ -4,3 +4,7 @@ node_modules
 *.mp3
 .dist
 dist
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
